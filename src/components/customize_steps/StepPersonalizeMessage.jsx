@@ -30,7 +30,8 @@ const schema = yup.object({
             message: 'No Special characters allowed!'
         }),
         otherwise: (schema) => schema,
-    })
+    }),
+    hasJars: yup.number().required("Please choose any of one Jar!").positive("Please choose any of one Jar!").integer(),
 }).required()
 
 const CHARACTER_LIMIT = 15;
@@ -58,6 +59,7 @@ function StepPersonalizeMessages(props) {
         defaultValues: {
             isTxt: false,
             personalise: '',
+            hasJars: 0
         }
     })
 
@@ -80,11 +82,19 @@ function StepPersonalizeMessages(props) {
                 message: errors.personalise?.message
             })
         }
+        else if (errors?.hasJars) {
+            __toastToggler({
+                open: true,
+                type: 'error',
+                message: errors.hasJars?.message
+            })
+        }
     }, [errors])
 
     useEffect(() => {
         if (current) {
             setValue('personalise', current?.personalise_text);
+            setValue('hasJars', current?.jar?.length);
         }
     }, [current])
 
@@ -120,8 +130,12 @@ function StepPersonalizeMessages(props) {
                         <input
                             type="hidden"
                             name="isTxt"
-                            defaultValue=""
                             {...register('isTxt')}
+                        />
+                        <input
+                            type="hidden"
+                            name="hasJars"
+                            {...register('hasJars')}
                         />
                         <Controller
                             name="personalise"
