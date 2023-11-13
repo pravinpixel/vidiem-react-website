@@ -31,7 +31,7 @@ const schema = yup.object({
         }),
         otherwise: (schema) => schema,
     }),
-    hasJars: yup.number().required("Please choose any of one Jar!").positive("Please choose any of one Jar!").integer(),
+    hasJars: yup.number().positive("Please GO BACK and choose any of one Jar!").integer(),
 }).required()
 
 const CHARACTER_LIMIT = 15;
