@@ -168,9 +168,12 @@ function StepChooseColorAndMotor(props) {
                                                 value={color?.bm_color_id}
                                                 control={<Radio />}
                                                 label={
-                                                    <div className={color?.bm_color_id == activeColor ? "selected" : ""}>
-                                                        <ProImage image={color?.color_code_image} height="100%" width="100%" variant="circular" />
-                                                    </div>
+                                                    <>
+                                                        <div className={color?.bm_color_id == activeColor ? "selected" : ""}>
+                                                            <ProImage image={color?.color_code_image} height="100%" width="100%" variant="circular" />
+                                                        </div>
+                                                        <span>{color?.title}</span>
+                                                    </>
                                                 }
                                             />))}
                                     </RadioGroup>

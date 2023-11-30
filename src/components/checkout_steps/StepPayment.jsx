@@ -134,7 +134,7 @@ function StepPayment(props) {
         const options = {
             key: process.env.REACT_APP_RAZOR_KEY,
             currency: "INR",
-            amount: Math.round(product?.total_amount * 100),
+            //amount: Math.round(product?.total_amount * 100),
             amount: Math.round(amount),
             name: "Vidiem Payment",
             description: "Test Payment Transaction",
@@ -242,6 +242,7 @@ function StepPayment(props) {
                             <Grid item xs={12}>
                                 <h5>Subtotal <span><strong>₹</strong> {product?.total_amount_before_discount ? product?.total_amount_before_discount : product?.total_amount}</span></h5>
                                 <h5>Shipping Charges <span>Free</span></h5>
+                                {/*<h5>Packing <span><strong>₹</strong> {product?.packing?.price}</span></h5>*/}
                                 {product?.coupon ? (<h5>Coupon Applied <label className='coupon'>{product?.coupon.applied_code}</label> <span><strong>₹</strong> {product?.coupon.total_discount}</span></h5>) : null}
                             </Grid>
                             <Grid item xs={12}>

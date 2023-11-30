@@ -65,11 +65,11 @@ function MyCustomizations() {
                             <span>{customization?.color}</span>
                         </li>
                         <li>
-                            <span>Selected Jars</span>
+                            <span>Selected Jar(s)</span>
                             <span
                                 onClick={(e) => __setJarLists(e, customization?.jar_info)}
                                 class="popu">
-                                {customization?.jar_count} Jars
+                                {customization?.jar_count} Jar(s)
                             </span>
                         </li>
                         <li>

@@ -58,11 +58,11 @@ function MyOrders() {
                             <span>{order?.basic_info.bc_title}</span>
                         </li>
                         <li>
-                            <span>Selected Jars</span>
+                            <span>Selected Jar(s)</span>
                             <span
                                 onClick={(e) => __setJarLists(e, order?.jar_info)}
                                 class="popu">
-                                {order?.basic_info.jars} Jars
+                                {order?.basic_info.jars} Jar(s)
                             </span>
                         </li>
                         <li>
@@ -75,7 +75,7 @@ function MyOrders() {
                     <ul>
                         <li><span>Amount :</span> ₹ {order?.basic_info.total_amount}/-</li>
                         <li><span>Order Date :</span> {order?.basic_info.order_date}</li>
-                        <li><span>Order Status :</span> <label className={order?.basic_info?.status_slug}>{order?.basic_info?.status}</label></li>
+                        <li><span>Order Status :</span> <label className={order?.basic_info?.status_slug}>{order?.basic_info?.order_status}</label></li>
                     </ul>
                 </div>
                 <span><i className="icofont-check-circled"></i></span>

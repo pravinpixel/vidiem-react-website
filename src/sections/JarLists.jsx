@@ -2,6 +2,8 @@ import { useEffect, useState, Fragment } from "react";
 import { useCustomisedJars } from 'store/hooks/WebHooks';
 import { getLocalStorage, makeQueryString } from 'helpers/HelperFunctions';
 import { CONSTANTS } from 'helpers/AppConstants'
+import ProgressiveImage from "react-progressive-graceful-image";
+import Skeleton from '@mui/material/Skeleton';
 import _ from "lodash";
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -11,6 +13,13 @@ import CheckBoxSharpIcon from '@mui/icons-material/CheckBoxSharp';
 import ContentLoader from "widgets/ContentLoader";
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import ProductInfoWidget from "widgets/ProductInfoWidget";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+
+const placeholder = (<Skeleton variant="rectangular" animation="wave" sx={{
+    width: "100%",
+    height: "100%",
+    bgcolor: '#F5F5F5'
+}} />);
 
 const scrollbarOptions = {
     wheelSpeed: 0.5,
@@ -25,6 +34,7 @@ function JarLists(props) {
         __toastToggler
     } = props
 
+    const [previewJarId, setPreviewJarId] = useState(null)
     const [selectedJars, setSelectedJars] = useState(null)
     const [qs, setQs] = useState(null)
     const [jarCount, setJarCount] = useState(0)
@@ -81,6 +91,9 @@ function JarLists(props) {
         }
         updateHandler(formData, "none")
     }
+    const __previewHandler = (jarId) => {
+        setPreviewJarId(jarId)
+    }
 
     useEffect(() => {
         if (current?.motor?.motor_id && current?.shape?.type_id && current?.lid?.type_id && current?.handle?.type_id) {
@@ -124,7 +137,7 @@ function JarLists(props) {
                     {customisedLoader ? (<ContentLoader size={20} color="error" />) : (
                         <>
                             <Grid item xs={12} sm={12} md={12}>
-                                <h5>Showing Jars Based On Your Preference</h5>
+                                <h5>Showing Jar(s) Based On Your Preference</h5>
                             </Grid>
                             {
                                 customisedJarList ? (
@@ -135,14 +148,26 @@ function JarLists(props) {
                                             return <Grid item xs={12} sm={6} md={6} lg={4} xl={3} key={index}>
                                                 <div className="preference-box">
                                                     <div className={!exist ? "jar-img selected" : "jar-img"}>
-                                                        <ProductInfoWidget pre={pre} />
+                                                        <ProgressiveImage
+                                                            src={pre?.image}
+                                                            placeholder="">
+                                                            {(src, loading) => {
+                                                                return loading ? placeholder : <img src={src} alt={pre?.name} />;
+                                                            }}
+                                                        </ProgressiveImage>
+                                                        {/*<ProductInfoWidget pre={pre} />*/}
                                                         {!exist ? (
                                                             <span className="right">
                                                                 <CheckBoxSharpIcon sx={{ color: "#E31E24" }} />
                                                             </span>
                                                         ) : null}
                                                     </div>
-                                                    <h4>{pre.name}</h4>
+                                                    <h4>{pre.name} <InfoOutlinedIcon onClick={() => __previewHandler(pre?.id)}
+                                                                                     sx={{
+                                                                                         fontSize: "18px",
+                                                                                         color: "#E31E24"
+                                                                                     }}
+                                                    /></h4>
                                                     {!exist ? (<div className="jar-txt-box">
                                                         <Button variant="outlined" onClick={() => decToggler(pre, !exist ? already_added[0].qty : 1)}>
                                                             <RemoveIcon sx={{ color: "#000" }} />
@@ -168,6 +193,7 @@ function JarLists(props) {
                     )}
                 </Grid>
             </PerfectScrollbar>
+            <ProductInfoWidget open={previewJarId} handler={__previewHandler} />
         </Fragment>
     );
 }

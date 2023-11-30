@@ -26,7 +26,7 @@ function ProductPreview(props) {
         data: previewCoordinates,
     } = usePreviewCoordinates(custom?.body?.base_id)
 
-    const __deleteandler = (jarId) => {
+    const __deleteHandler = (jarId) => {
         let formData = {
             uuid: getLocalStorage(CONSTANTS.CURRENT_CUSTOMIZATION),
             type: "jar",
@@ -55,12 +55,14 @@ function ProductPreview(props) {
                     style={{
                         backgroundImage: `url(${custom?.customised_image})`,
                     }}>
-                    <span
-                        className="cutomize-texter"
+                    {custmizeTxt !== '' ? (<div
+                        className="cutomize-magnifier"
                         style={{
-                            top: `${coordinates && coordinates?.desktoptop}%`
-                        }}
-                    >{custmizeTxt}</span>
+                            top: `${coordinates && coordinates?.desktoptop}%`,
+                            left: `${coordinates && coordinates?.desktopleft}%`,
+                        }}>
+                        <span>{custmizeTxt}</span>
+                    </div>) : null}
                 </div>
             </section>
             <section className='vi-preview-footer'>
@@ -68,13 +70,12 @@ function ProductPreview(props) {
                     <div className="box left">
                         <div className='raw-product'>
                             <div>
-                                {/* <img src={custom?.customised_image} alt="product preview" /> */}
                                 <ProImage image={custom?.customised_image} height="96px" width="100%" variant="rectangular" />
                             </div>
                             <p>Body & Motor</p>
                             <h5>{custom?.body.basetitle}</h5>
                             <h5>{custom?.body.basesubtitle}</h5>
-                            <h3><strong>₹</strong> {custom?.total_amount}</h3>
+                            {custom?.total_amount == "0.00" ? null : <h3><strong>₹</strong> {custom?.total_amount}</h3>}
                         </div>
                     </div>
                     <Divider orientation="vertical" flexItem />
@@ -87,7 +88,6 @@ function ProductPreview(props) {
                                     {custom && custom?.motor ? (
                                         <div>
                                             <div className="img-wrapper">
-                                                {/* <img src={custom?.motor?.basepath} alt={custom?.motor.motorname} /> */}
                                                 <ProImage image={custom?.motor?.basepath} height="96px" width="100%" variant="rectangular" />
                                             </div>
                                             <span>Motor</span>
@@ -99,9 +99,8 @@ function ProductPreview(props) {
                                         custom?.jar.map((j, index) => (
                                             <div key={index}>
                                                 <div className="img-wrapper">
-                                                    {/* <img src={j.image} alt={j.name} /> */}
                                                     <ProImage image={j.image} height="96px" width="100%" variant="rectangular" />
-                                                    <label className="delete" onClick={() => __deleteandler(j.jar_id)}>
+                                                    <label className="delete" onClick={() => __deleteHandler(j.jar_id)}>
                                                         <CloseIcon sx={{ color: "#E31E24" }} />
                                                     </label>
                                                 </div>

@@ -48,6 +48,10 @@ const MyCustomizations = async () => {
     const { data } = await VidiemServer.get(`/my-customisations`);
     return data;
 }
+const FetchPackingInfo = async () => {
+    const { data } = await VidiemServer.get(`/packing`);
+    return data;
+}
 
 export {
     FetchBodyStyles,
@@ -61,5 +65,6 @@ export {
     FetchJarDetails,
     PreviewCoordinates,
     MyOrders,
-    MyCustomizations
+    MyCustomizations,
+    FetchPackingInfo
 }

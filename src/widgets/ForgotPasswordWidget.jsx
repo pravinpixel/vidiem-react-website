@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForgotPassword } from 'store/hooks/AuthHooks';
@@ -20,8 +20,7 @@ const forgotSchema = yup.object({
 });
 
 function ForgotPasswordWidget(props) {
-    const { __toastToggler } = props
-    const [open, setOpen] = useState(false)
+    const { open, __openHandler, __toastToggler } = props
 
     const {
         control,
@@ -40,14 +39,6 @@ function ForgotPasswordWidget(props) {
         mutate: forgotPassword
     } = useForgotPassword();
 
-    const __modalToggler = (stae) => {
-        setOpen(stae)
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-    }
-
     const forgotPasswordHandler = (formData) => {
         forgotPassword(formData, {
             onSuccess: (response) => {
@@ -58,6 +49,7 @@ function ForgotPasswordWidget(props) {
                 });
 
                 setValue("email", "")
+                __openHandler(false)
             },
             onError: (errors) => {
                 __toastToggler({
@@ -69,18 +61,11 @@ function ForgotPasswordWidget(props) {
         });
     }
 
-    //console.log("errors", errors)
     return (
         <Fragment>
-            <Button
-                variant="text"
-                onClick={() => __modalToggler(true)}>
-                Forgot Password
-            </Button>
             <Dialog
                 open={open}
-                onClose={handleClose}
-                onBackdropClick={false}>
+                onClose={() => __openHandler(false)}>
                 <DialogTitle>Forgot Password</DialogTitle>
                 <form
                     onSubmit={handleSubmit(forgotPasswordHandler)}>
@@ -113,7 +98,7 @@ function ForgotPasswordWidget(props) {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={() => __openHandler(false)}>Cancel</Button>
                         <Button type="submit">Reset</Button>
                     </DialogActions>
                 </form>

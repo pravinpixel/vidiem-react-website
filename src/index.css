@@ -143,29 +143,51 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
-
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
 }
 
-/* .vi-preview-content>img {
-    max-width: 100%;
-    height: auto;
-    margin: 0px auto;
-} */
-
-.cutomize-texter {
+.cutomize-magnifier {
     position: absolute;
     text-align: center;
-    width: 100%;
-    color: #ffffff;
-    font-size: 16px;
-    text-transform: uppercase;
-    font-weight: 600;
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
 }
 
+.cutomize-magnifier>span {
+    position: absolute;
+    background-color: #92929236;
+    height: 140px;
+    width: 140px;
+    top: -60px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    text-align: center;
+    border: 2px solid #000;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 140px;
+    visibility: hidden;
+    animation: 1s fadeIn;
+    animation-fill-mode: forwards;
+}
 
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        visibility: visible;
+        opacity: 1;
+    }
+}
 
 .vi-preview-logo {
     display: flex;
@@ -820,7 +842,7 @@ body {
 .color-selector {
     display: flex !important;
     flex-direction: row !important;
-    gap: 4px
+    gap: 10px
 }
 
 .color-selector>label {
@@ -846,6 +868,13 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+}
+
+.color-selector>label>span:last-child>span {
+    font-size: 10px;
+    font-weight: 500;
+    color: #81838B;
+    font-family: "Poppins", serif;
 }
 
 .color-selector>label>span:last-child>div {
@@ -933,11 +962,11 @@ body {
     font-weight: 400;
     line-height: normal;
 
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /*display: -webkit-box;*/
+    /*-webkit-line-clamp: 2;*/
+    /*-webkit-box-orient: vertical;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
 }
 
 .motor-selector>span:last-child h5 {
@@ -1211,10 +1240,19 @@ body {
     line-height: normal;
     padding: 5px 0px;
 
-    display: block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    /*display: block;*/
+    /*overflow: hidden;*/
+    /*white-space: nowrap;*/
+    /*text-overflow: ellipsis;*/
+}
+
+.preference-box h4>svg {
+    margin-left: auto;
+    cursor: pointer;
 }
 
 .preference-box .jar-txt-box {
@@ -1255,87 +1293,6 @@ body {
     line-height: 20px;
     padding: 0px 10px;
 }
-
-/* .preference-box .jar-img {
-    transition: all 0.3s ease-in-out;
-    background-color: #ececec;
-    border: 2px solid #ececec;
-    border-radius: 4px;
-    text-align: center;
-    padding: 10px 5px;
-    position: relative;
-    cursor: pointer;
-}
-
-.preference-box .jar-img.selected {
-    border: 2px solid #E31E24;
-}
-
-.preference-box .jar-img .right {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-}
-
-.preference-box .jar-img>img {
-    max-height: 90px;
-}
-
-.preference-box h4 {
-    color: #000;
-    text-align: center;
-    font-family: "Jost";
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    padding: 5px 0px;
-
-    display: block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.preference-box .jar-txt-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-}
-
-.jar-txt-box button {
-    padding: 0px !important;
-    min-width: auto !important;
-    border: 1px solid #000;
-    border-radius: 4px;
-    width: 20px;
-    height: 20px;
-}
-
-.jar-txt-box>span {
-    display: inline-flex;
-    padding: 2px 10px;
-    flex-direction: column;
-    align-items: flex-start;
-    border-radius: 4px;
-    border: 1px solid #E31E24;
-    background: #E31E24;
-    font-family: "Jost";
-    font-size: 13px;
-    font-weight: 400;
-    color: #fff;
-    cursor: pointer;
-}
-
-.txt-box {
-    display: inline-block;
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
-    padding: 0px 10px;
-} */
-
 /* Jar Preferences */
 /* Property */
 /* Message */
@@ -1436,6 +1393,7 @@ ul.profile-menu>li>a>span {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    padding-right: 20px;
 }
 
 .vi-final-summary .product .desc p {
@@ -1450,7 +1408,7 @@ ul.profile-menu>li>a>span {
 .vi-final-summary .product .desc h5 {
     color: #000;
     font-family: "Poppins";
-    font-size: 18px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -1465,6 +1423,9 @@ ul.profile-menu>li>a>span {
 .vi-final-summary .product-items {
     max-height: calc(100% - 130px);
     overflow-y: scroll;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .vi-final-summary .product-items ul li {
@@ -1480,8 +1441,6 @@ ul.profile-menu>li>a>span {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    margin-bottom: 8px;
-
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -1496,6 +1455,8 @@ ul.profile-menu>li>a>span {
     font-size: 12px;
     font-weight: 600;
     color: #000;
+
+    margin-left: auto;
 }
 
 .vi-final-summary .product-items ul li h3 {
@@ -1773,6 +1734,7 @@ ul.profile-menu>li>a>span {
 } */
 .vi-forms {
     height: 100%;
+    position: relative;
 }
 
 .vi-forms .MuiFilledInput-underline {
@@ -2717,5 +2679,37 @@ strong {
     right: 10px;
     top: 10px;
     cursor: pointer;
+    color: #E31E24;
+}
+
+span.forgot {
+    display: inline-block;
+    background-color: #FFF9F9;
+    padding: 4px 14px;
+    color: #E31E24;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+span.forgot:hover {
+    background-color: #E31E24;
+    color: #fff;
+}
+
+.property-wrapper .pointer-none{
+    filter: contrast(0.5);
+    pointer-events: none !important;
+}
+.tiny-f{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.tiny-s{
+    font-size: 11px;
+    font-weight: 600;
     color: #E31E24;
 }

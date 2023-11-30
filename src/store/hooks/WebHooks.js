@@ -27,8 +27,10 @@ export const useJarStyles = (uuid) => {
 }
 export const useJarProperties = (categoryId) => {
     return useQuery(["JarProperties", categoryId], () => Web.FetchJarProperties(categoryId), {
-        enabled: false,
-        retry: false
+        enabled: categoryId ? true : false,
+        retry: false,
+        refetchOnWindowFocus: false,
+        retryOnMount: false
     });
 }
 export const useResetJarProperties = () => {
@@ -71,6 +73,12 @@ export const useMyOrders = () => {
 }
 export const useMyCustomizations = () => {
     return useQuery("MyCustomizationList", () => Web.MyCustomizations(), {
+        enabled: false,
+        retry: false
+    });
+}
+export const usePackingInfo = () => {
+    return useQuery("PackingInfo", () => Web.FetchPackingInfo(), {
         enabled: false,
         retry: false
     });

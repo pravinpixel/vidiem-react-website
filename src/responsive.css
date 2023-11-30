@@ -98,6 +98,18 @@
         font-size: 12px;
         color: #fff;
     }
+
+    .cutomize-magnifier {
+        height: 100px !important;
+    }
+
+    .cutomize-magnifier>span {
+        height: 100px;
+        width: 100px;
+        line-height: 100px;
+        top: -40px;
+        font-size: 14px;
+    }
 }
 
 @media (min-width: 100px) and (max-width: 767px) {
@@ -363,5 +375,17 @@
 
     .dasboard-body {
         padding: 24px 0px !important;
+    }
+
+    .cutomize-magnifier {
+        height: 80px !important;
+    }
+
+    .cutomize-magnifier>span {
+        height: 80px;
+        width: 80px;
+        line-height: 80px;
+        top: -30px;
+        font-size: 12px;
     }
 }

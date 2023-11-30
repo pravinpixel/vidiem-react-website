@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -71,6 +71,8 @@ function FormSignIn(props) {
         __toastToggler
     } = props
 
+    const [open, setOpen] = useState(false)
+
     const {
         control,
         handleSubmit,
@@ -103,6 +105,10 @@ function FormSignIn(props) {
             uuid: current_customization_id
         }
     });
+
+    const __openHandler = (stae) => {
+        setOpen(stae)
+    }
 
     return (
         <Fragment>
@@ -178,7 +184,9 @@ function FormSignIn(props) {
                                         )}
                                     />
                                 </Grid>
-
+                                <Grid item xs={12} className="txt-right">
+                                    <span className="forgot" onClick={() => __openHandler(true)}>Forgot Password</span>
+                                </Grid>
                                 <Grid item xs={12} className="txt-center">
                                     <Button
                                         size="medium"
@@ -192,7 +200,6 @@ function FormSignIn(props) {
                                 </Grid>
                             </Grid>
                         </form>
-                        <ForgotPasswordWidget __toastToggler={__toastToggler} />
                         <Divider
                             color="red"
                             sx={{ width: "100%", padding: "15px 0px" }}
@@ -409,6 +416,10 @@ function FormSignIn(props) {
                     </Button>
                 </div>
             </div>
+            <ForgotPasswordWidget
+                open={open}
+                __openHandler={__openHandler}
+                __toastToggler={__toastToggler} />
         </Fragment>
     );
 }
