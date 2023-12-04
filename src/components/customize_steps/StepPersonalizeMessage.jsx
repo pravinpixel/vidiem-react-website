@@ -32,7 +32,7 @@ const package_options = [
     { label: "Wedding", value: "Wedding" },
     { label: "Ramzan", value: "Ramzan" }
 ];
-                              
+
 const schema = yup
     .object({
         isTxt: yup.boolean(),
@@ -44,7 +44,22 @@ const schema = yup
         }),
         packing_message: yup.string().when("id", {
             is: (value) => value === 2,
-            then: (schema) => schema.required("Required"),
+            then: (schema) => schema.required("Required").test(
+                "len",
+                "You can enter only min 3 to 50 characters!",
+                (val) => {
+                    if (val === undefined) {
+                        return true;
+                    }
+                    return (
+                        val.length === 0 ||
+                        (val.length >= 1 && val.length <= 50)
+                    );
+                }
+            )
+                .matches(/^[^_!@#$%^&*+=<>:;|~]*$/, {
+                    message: "No Special characters allowed!",
+                }),
             otherwise: (schema) => schema,
         }),
         personalise: yup.string().when("isTxt", {
@@ -77,6 +92,7 @@ const schema = yup
     });
 
 const CHARACTER_LIMIT = 15;
+const MESSSAGE_LIMIT = 50;
 
 function StepPersonalizeMessages(props) {
     const {
@@ -88,12 +104,10 @@ function StepPersonalizeMessages(props) {
     } = props;
 
     const [count, setCount] = useState(0);
-    const [inputValue, setInputValue] = useState('');
 
     const {
         refetch: fetchPackingInfo,
         data: packingInfo,
-        isLoading: packLoading,
     } = usePackingInfo();
 
     const {
@@ -112,7 +126,7 @@ function StepPersonalizeMessages(props) {
             hasJars: 0,
             id: 0,
             occasion_text: '',
-            packing_message:''
+            packing_message: ''
         },
     });
 
@@ -125,7 +139,7 @@ function StepPersonalizeMessages(props) {
             text: fData.personalise,
         };
 
-        if (fData.id!==0) {
+        if (fData.id !== 0) {
             let formData2 = {
                 uuid: getLocalStorage(CONSTANTS.CURRENT_CUSTOMIZATION),
                 type: "packing",
@@ -179,7 +193,7 @@ function StepPersonalizeMessages(props) {
     }, [watchPersonalise]);
 
     useEffect(() => {
-    	fetchPackingInfo()
+        fetchPackingInfo()
     }, [])
 
     return (
@@ -188,7 +202,7 @@ function StepPersonalizeMessages(props) {
             className="vi-body-wrapper vi-forms"
         >
             <div className="vi-body-title">
-                <h4>Personalise with a Special Message</h4>
+                <h4>PERSONALIZE YOUR MIXER GRINDER WITH A SPECIAL MESSAGE</h4>
             </div>
             <div className="vi-body-content">
                 <Grid
@@ -260,15 +274,15 @@ function StepPersonalizeMessages(props) {
                                     onChange={onChange}
                                     value={value}>
                                     {packingInfo && packingInfo?.data?.map((pack, i) => {
-                                            return (
-                                                <FormControlLabel
-                                                    key={pack?.package_id}
-                                                    value={pack?.package_id}
-                                                    control={<Radio />}
-                                                    label={<div className="tiny-f"><span>{pack?.package_name}</span> <span className="tiny-s"><strong>₹</strong>{pack?.price }</span></div>}
-                                                />
-                                            );
-                                        })}
+                                        return (
+                                            <FormControlLabel
+                                                key={pack?.package_id}
+                                                value={pack?.package_id}
+                                                control={<Radio />}
+                                                label={<div className="tiny-f"><span>{pack?.package_name}</span> <span className="tiny-s"><strong>₹</strong>{pack?.price}</span></div>}
+                                            />
+                                        );
+                                    })}
                                 </RadioGroup>
                             )}
                         />
@@ -288,11 +302,11 @@ function StepPersonalizeMessages(props) {
                                                 value={value}
                                                 onChange={onChange}
                                                 fullWidth
-                                                size="small">
+                                                size="medium">
                                                 <MenuItem disabled value="">
                                                     <em>Select Occasion</em>
                                                 </MenuItem>
-                                                { package_options && package_options.map((opt, index)=><MenuItem value={opt?.label}>{opt?.label}</MenuItem>)}                                                
+                                                {package_options && package_options.map((opt, index) => <MenuItem value={opt?.label}>{opt?.label}</MenuItem>)}
                                             </Select>
                                         )}
                                     />
@@ -310,17 +324,16 @@ function StepPersonalizeMessages(props) {
                                             <TextField
                                                 fullWidth
                                                 hiddenLabel
-                                                size="small"
+                                                size="medium"
                                                 error={error}
                                                 onChange={onChange}
                                                 value={value}
                                                 variant="outlined"
                                                 placeholder="Maximum 50 Characters"
                                                 helperText={error?.message}
-                                                // className="personalize__counter"
-                                                // inputProps={{
-                                                //     maxLength: CHARACTER_LIMIT
-                                                // }}
+                                                inputProps={{
+                                                    maxLength: MESSSAGE_LIMIT,
+                                                }}
                                                 id="personalise"
                                             />
                                         )}
@@ -328,15 +341,6 @@ function StepPersonalizeMessages(props) {
                                 </Grid>
                             </Grid>
                         ) : null}
-                        {/* <Grid xs={12} mt={4} sx={{ textAlign: "center" }}>
-                            <Button
-                                className=""
-                                size="medium"
-                                onClick={handleSubmit(onMessageSubmitHandler)}
-                            >
-                                Save
-                            </Button>
-                        </Grid> */}
                     </Grid>
                 </Grid>
             </div>

@@ -108,6 +108,15 @@ function JarLists(props) {
             })
             setQs(qs)
         }
+        else {
+            let qs = makeQueryString({
+                motor_id: current?.motor?.motor_id,
+                color_id: current?.color?.bm_color_id,
+                base_id: current?.body?.base_id,
+                type_id: grindingType,
+            })
+            setQs(qs)
+        }
         if (current?.jar) {
             setSelectedJars(current?.jar)
         }
@@ -163,10 +172,10 @@ function JarLists(props) {
                                                         ) : null}
                                                     </div>
                                                     <h4>{pre.name} <InfoOutlinedIcon onClick={() => __previewHandler(pre?.id)}
-                                                                                     sx={{
-                                                                                         fontSize: "18px",
-                                                                                         color: "#E31E24"
-                                                                                     }}
+                                                        sx={{
+                                                            fontSize: "18px",
+                                                            color: "#E31E24"
+                                                        }}
                                                     /></h4>
                                                     {!exist ? (<div className="jar-txt-box">
                                                         <Button variant="outlined" onClick={() => decToggler(pre, !exist ? already_added[0].qty : 1)}>

@@ -17,6 +17,9 @@ export const useOtpGenerate = () => {
 export const useOtpLogin = () => {
     return useMutation((formData) => Auth.OtpLogin(formData));
 }
+export const useResendOtp = () => {
+    return useMutation((formData) => Auth.ResendOtp(formData));
+}
 export const useAddAddress = () => {
     const queryClient = useQueryClient();
     return useMutation((formData) => Auth.AddAddress(formData), {

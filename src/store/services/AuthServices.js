@@ -12,6 +12,10 @@ const OtpLogin = async (formData) => {
     const { data } = await VidiemServer.post(`/otp-login`, formData);
     return data;
 }
+const ResendOtp = async (formData) => {
+    const { data } = await VidiemServer.post(`/resend-otp`, formData);
+    return data;
+}
 const AddAddress = async (formData) => {
     const { data } = await VidiemServer.post(`/update-billing-shipping`, formData);
     return data;
@@ -73,6 +77,7 @@ export {
     AuthLogin,
     OtpGenerate,
     OtpLogin,
+    ResendOtp,
     AddAddress,
     AddCoupon,
     TriggerPayment,

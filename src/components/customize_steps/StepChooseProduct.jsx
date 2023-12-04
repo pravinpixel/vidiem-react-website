@@ -75,7 +75,6 @@ function StepChooseProduct(props) {
             __createHandler(formData)
         }
     }
-
     const onSubmitHandler = (fData) => {
         if (!current) {
             const formData = new FormData()
@@ -98,7 +97,6 @@ function StepChooseProduct(props) {
             })
         }
     }, [errors])
-
     useEffect(() => {
         if (current?.body) {
             setValue('body_id', current?.body?.base_id);

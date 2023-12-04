@@ -18,8 +18,10 @@ export const useCreateCustomization = () => {
 }
 export const useCurrentCustomization = (uuid) => {
     return useQuery(["CurrentCustomisation", uuid], () => Product.CurrentCustomization(uuid), {
-        enabled: false,
-        retry: false
+        enabled: uuid ? true : false,
+        retry: false,
+        refetchOnWindowFocus: false,
+        retryOnMount: false
     });
 }
 export const useUpdateCustomization = () => {

@@ -52,6 +52,10 @@ const FetchPackingInfo = async () => {
     const { data } = await VidiemServer.get(`/packing`);
     return data;
 }
+const ResetJarPropertiesAlt = async (formData) => {
+    const { data } = await VidiemServer.post(`/clear-shape-lid-handle-except-jar`, formData);
+    return data;
+}
 
 export {
     FetchBodyStyles,
@@ -66,5 +70,6 @@ export {
     PreviewCoordinates,
     MyOrders,
     MyCustomizations,
-    FetchPackingInfo
+    FetchPackingInfo,
+    ResetJarPropertiesAlt
 }

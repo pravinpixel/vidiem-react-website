@@ -19,11 +19,11 @@ function JarProperties(props) {
         control,
         jarPropertyList,
         propertyLoader,
-        grindingType,
-        updatePropertyHandler
+        updatePropertyHandler,
+        propHistory
     } = props
 
-    console.log("propertyLoader", propertyLoader)
+    //console.log("propHistory", propHistory)
 
     return (
         <PerfectScrollbar
@@ -58,7 +58,7 @@ function JarProperties(props) {
                                                         className={`${!shape?.selected ? " pointer-none" : ""}`}
                                                         label={
                                                             <>
-                                                                <div className={`${String(current?.shape?.type_id) === shape?.id ? "selected" : ""}`}>
+                                                                <div className={`${String(propHistory?.shape_id) === shape?.id ? "selected" : ""}`}>
                                                                     <img src={shape?.image} alt={shape.name} />
                                                                     {String(current?.shape?.type_id) === shape?.id ? (<span className="right">
                                                                         <CheckBoxSharpIcon sx={{ color: "#E31E24" }} />

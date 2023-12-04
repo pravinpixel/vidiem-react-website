@@ -75,7 +75,7 @@ function ProductPreview(props) {
                             <p>Body & Motor</p>
                             <h5>{custom?.body.basetitle}</h5>
                             <h5>{custom?.body.basesubtitle}</h5>
-                            {custom?.total_amount == "0.00" ? null : <h3><strong>₹</strong> {custom?.total_amount}</h3>}
+                            {String(custom?.total_amount) === "0.00" ? null : <h3><strong>₹</strong> {custom?.total_amount}</h3>}
                         </div>
                     </div>
                     <Divider orientation="vertical" flexItem />
@@ -104,8 +104,8 @@ function ProductPreview(props) {
                                                         <CloseIcon sx={{ color: "#E31E24" }} />
                                                     </label>
                                                 </div>
-                                                <span>jars</span>
-                                                <p>Qty - {j.qty}</p>
+                                                <span>Jar | Qty - {j.qty}</span>
+                                                {/* <p>Qty - {j.qty}</p> */}
                                                 <p>{j.name}</p>
                                                 <h4><strong>₹</strong> {j.price}</h4>
                                             </div>))

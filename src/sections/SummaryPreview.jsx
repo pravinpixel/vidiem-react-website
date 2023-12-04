@@ -5,6 +5,7 @@ import BlenderIcon from '@mui/icons-material/Blender';
 import PaletteIcon from '@mui/icons-material/Palette';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import AddCommentIcon from '@mui/icons-material/AddComment';
+import RedeemIcon from '@mui/icons-material/Redeem';
 import Tooltip from '@mui/material/Tooltip';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
@@ -86,7 +87,8 @@ function SummaryPreview(props) {
                                                 <IconButton>
                                                     <AddCommentIcon />
                                                 </IconButton>
-                                            </Tooltip></h5>
+                                            </Tooltip>
+                                            </h5>
                                         </li>
                                     )}
                                     {product?.jar && product?.jar?.length ? (
@@ -106,17 +108,42 @@ function SummaryPreview(props) {
                                             </li>
                                         ))
                                     ) : null}
-                                    {/*{product?.packing ? (*/}
-                                    {/*    product?.packing?.price !== '' ? (*/}
-                                    {/*        <li>*/}
-                                    {/*            <h3>Packing <span><strong>₹</strong> {product?.packing?.price}</span></h3>*/}
-                                    {/*        </li>*/}
-                                    {/*    ) : null*/}
-                                    {/*) : (*/}
-                                    {/*    <li>*/}
-                                    {/*        <h5>No Packings Charges</h5>*/}
-                                    {/*    </li>*/}
-                                    {/*)}*/}
+
+                                    {product?.package_data ? (
+                                        product?.package_data?.packing_message !== '' ? (
+                                            <li>
+                                                <h5>{product?.package_data?.occasion_text} <Tooltip title="Change Packing Message" onClick={() => __redirectHandler("/customize/personalize-message")}>
+                                                    <IconButton>
+                                                        <RedeemIcon />
+                                                    </IconButton>
+                                                </Tooltip></h5>
+                                                <h3>
+                                                    <span>{product?.package_data?.packing_message}</span>
+                                                    <span><strong>₹</strong> {product?.package_data?.packing_text_amount}</span>
+                                                </h3>
+                                            </li>
+                                        ) : null
+                                    ) : (
+                                        <li>
+                                            <h5>No Packing text <Tooltip title="Add Packing Message" onClick={() => __redirectHandler("/customize/personalize-message")}>
+                                                <IconButton>
+                                                    <RedeemIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                            </h5>
+                                        </li>
+                                    )}
+                                    {/* {product?.packing ? (
+                                        product?.packing?.price !== '' ? (
+                                            <li>
+                                                <h3><span>Shipping Charges</span> <span><strong>₹</strong> {product?.packing?.price}</span></h3>
+                                            </li>
+                                        ) : null
+                                    ) : (
+                                        <li>
+                                            <h5>No Shipping Charges</h5>
+                                        </li>
+                                    )} */}
                                 </ul>
                             </PerfectScrollbar>
                         </div>

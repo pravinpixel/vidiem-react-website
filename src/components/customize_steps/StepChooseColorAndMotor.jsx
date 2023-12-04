@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { getLocalStorage } from 'helpers/HelperFunctions';
 import { CONSTANTS } from 'helpers/AppConstants'
 import { useNavigate } from 'react-router-dom';
-import { useColors, useMotors } from 'store/hooks/WebHooks';
+import { useColors, useMotors, useResetJarProperties } from 'store/hooks/WebHooks';
 import * as yup from "yup"
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -54,6 +54,9 @@ function StepChooseColorAndMotor(props) {
         data: motorList,
         isLoading: motorLoading
     } = useMotors(current?.body?.base_id)
+    const {
+        mutate: resetProperties,
+    } = useResetJarProperties();
 
     const {
         control,
@@ -70,12 +73,32 @@ function StepChooseColorAndMotor(props) {
     })
 
     const updateHandler = (e, type) => {
-        let formData = {
-            uuid: getLocalStorage(CONSTANTS.CURRENT_CUSTOMIZATION),
-            type: type,
-            id: e.target.value
+        if (current?.jar?.length) {
+            let formData = {
+                uuid: getLocalStorage(CONSTANTS.CURRENT_CUSTOMIZATION)
+            }
+            resetProperties(formData, {
+                onSuccess: (response) => {
+                    let formDataAlt = {
+                        uuid: getLocalStorage(CONSTANTS.CURRENT_CUSTOMIZATION),
+                        type: type,
+                        id: e.target.value
+                    }
+                    __updateHandler(formDataAlt, "none")
+                },
+                onError: (error) => {
+                    console.log(error);
+                },
+            });
         }
-        __updateHandler(formData, "none")
+        else {
+            let formData = {
+                uuid: getLocalStorage(CONSTANTS.CURRENT_CUSTOMIZATION),
+                type: type,
+                id: e.target.value
+            }
+            __updateHandler(formData, "none")
+        }
     }
     const __previewToggler = (toggle, data) => {
         setPreview(toggle)
@@ -112,32 +135,38 @@ function StepChooseColorAndMotor(props) {
             setValue('color_id', current?.color?.bm_color_id);
             setActiveColor(current?.color?.bm_color_id)
         }
-        else {
-            // Set by color
-            let colors = _.filter(colorList && colorList?.colours, { 'active': 1 });
-            if (colors?.length) {
-                let formData = {
-                    uuid: getLocalStorage(CONSTANTS.CURRENT_CUSTOMIZATION),
-                    type: "color",
-                    id: colors[0].bm_color_id
-                }
-                __updateHandler(formData, "none")
-
-                setValue('color_id', colors[0].bm_color_id);
-                setActiveColor(colors[0].bm_color_id)
-            }
-            else {
-                setValue('color_id', '');
-                setActiveColor(null)
-            }
-        }
         if (current?.motor) {
             setValue('motor_id', current?.motor?.motor_id);
         }
         else {
             setValue('motor_id', '');
         }
-    }, [current, colorList])
+        // else {
+        //     // Set by color
+        //     let colors = _.filter(colorList && colorList?.colours, { 'active': 1 });
+        //     if (colors?.length) {
+        //         let formData = {
+        //             uuid: getLocalStorage(CONSTANTS.CURRENT_CUSTOMIZATION),
+        //             type: "color",
+        //             id: colors[0].bm_color_id
+        //         }
+        //         __updateHandler(formData, "none")
+
+        //         setValue('color_id', colors[0].bm_color_id);
+        //         setActiveColor(colors[0].bm_color_id)
+        //     }
+        //     else {
+        //         setValue('color_id', '');
+        //         setActiveColor(null)
+        //     }
+        // }
+        // if (current?.motor) {
+        //     setValue('motor_id', current?.motor?.motor_id);
+        // }
+        // else {
+        //     setValue('motor_id', '');
+        // }
+    }, [current])
 
     return (
         <form
@@ -203,22 +232,24 @@ function StepChooseColorAndMotor(props) {
                                                         value={motor?.motor_id}
                                                         control={<Radio />}
                                                         className="motor-selector"
-                                                        label={<>
-                                                            <div>
-                                                                <ProImage image={motor?.basepath} height="80px" width="80px" variant="rectangular" />
-                                                            </div>
-                                                            <div>
-                                                                <h4>{motor.name} <InfoOutlinedIcon onClick={() => __previewToggler(true, motor)}
-                                                                    sx={{
-                                                                        fontSize: "18px",
-                                                                        color: "#E31E24"
-                                                                    }}
-                                                                />
-                                                                </h4>
-                                                                <p>{motor?.description.replace(/<(.|\n)*?>/g, '')}</p>
-                                                                <h5><strong>₹</strong> {motor.price}</h5>
-                                                            </div>
-                                                        </>}
+                                                        label={
+                                                            <>
+                                                                <div>
+                                                                    <ProImage image={motor?.basepath} height="80px" width="80px" variant="rectangular" />
+                                                                </div>
+                                                                <div>
+                                                                    <h4>{motor.name} <InfoOutlinedIcon onClick={() => __previewToggler(true, motor)}
+                                                                        sx={{
+                                                                            fontSize: "18px",
+                                                                            color: "#E31E24"
+                                                                        }}
+                                                                    />
+                                                                    </h4>
+                                                                    <p>{motor?.description.replace(/<(.|\n)*?>/g, '')}</p>
+                                                                    <h5><strong>₹</strong> {motor.price}</h5>
+                                                                </div>
+                                                            </>
+                                                        }
                                                     />
                                                 </Grid>
                                             ))}

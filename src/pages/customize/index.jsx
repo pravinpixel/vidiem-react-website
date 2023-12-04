@@ -46,8 +46,6 @@ function Customize() {
     const [indicator, setIndicator] = useState(null)
     const [product, setProduct] = useState(null)
     const [drawer, setDrawer] = useState(false)
-    const [profile, setProfile] = useState(false)
-    const [preview, setPreview] = useState(false)
     const [custmizeTxt, setCustomizeTxt] = useState("")
     const [toaster, setToaster] = useState({
         open: '',
@@ -71,12 +69,8 @@ function Customize() {
     const {
         refetch: fetchCurrentCustomization,
         data: customizationData,
-        isLoading: customizationLoader
     } = useCurrentCustomization(current_customization_id)
 
-    const __previewToggler = (toggle) => {
-        setPreview(toggle)
-    }
     const __drawerToggler = (toggle) => {
         setDrawer(toggle)
     }
@@ -150,6 +144,11 @@ function Customize() {
             fetchCurrentCustomization(current_customization_id)
         }
     }, [current_customization_id])
+    useEffect(() => {
+        if (step) {
+            setIndicator(makeActiveTab(step))
+        }
+    }, [step])
 
     const SelectedSteps = useMemo(() => <CustomizationSteps
         step={step}
@@ -164,24 +163,8 @@ function Customize() {
         __updateHandler={__updateCustomizationHandler}
         __clearHandler={__clearCustomizationHandler}
         __resetCustomization={__resetCustomization}
-        __previewToggler={__previewToggler}
         __previewTxtHandler={__previewTxtHandler}
     />, [step, product]);
-
-    useEffect(() => {
-        if (authToken) {
-            setProfile(true)
-        }
-        else {
-            setProfile(false)
-        }
-    }, [authToken])
-
-    useEffect(() => {
-        if (step) {
-            setIndicator(makeActiveTab(step))
-        }
-    }, [step])
 
     return (
         <>

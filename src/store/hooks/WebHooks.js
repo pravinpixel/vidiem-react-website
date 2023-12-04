@@ -34,12 +34,7 @@ export const useJarProperties = (categoryId) => {
     });
 }
 export const useResetJarProperties = () => {
-    const queryClient = useQueryClient();
-    return useMutation((formData) => Web.ResetJarProperties(formData), {
-        onSuccess: () => {
-            queryClient.refetchQueries('CurrentCustomisation');
-        }
-    });
+    return useMutation((formData) => Web.ResetJarProperties(formData));
 }
 export const useCustomisedJars = (qs) => {
     return useQuery(["JarCustomisedList", qs], () => Web.FetchJarCustomised(qs), {
@@ -82,4 +77,7 @@ export const usePackingInfo = () => {
         enabled: false,
         retry: false
     });
+}
+export const useResetJarPropertiesAlt = () => {
+    return useMutation((formData) => Web.ResetJarPropertiesAlt(formData));
 }
